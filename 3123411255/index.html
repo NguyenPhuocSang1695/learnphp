@@ -1,0 +1,371 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title>Đăng ký bệnh nhân</title>
+
+    <!-- Javascript viết tại đây -->
+    <script type="text/javascript" charset="utf-8">
+        document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("submitButton").addEventListener("click", function (sukien) {
+        sukien.preventDefault(); // Kiểm tra form trước khi gửi đi
+        let hopLe = true; // Đánh dấu form có hợp lệ để gửi đi hay không, nếu true thì gửi và ngược lại
+        
+        // Xóa thông báo lỗi cũ
+        document.querySelectorAll(".error-message").forEach(el => el.remove());
+        
+        // Kiểm tra dữ liệu
+        const truong = ["name", "cmnd", "year", "gender"];
+        truong.forEach(function (maTruong) {
+            let truongDuLieu = document.getElementById(maTruong);
+            if (!truongDuLieu.value.trim()) {
+                hopLe = false;
+                hienThiLoi(truongDuLieu, "*");
+            }
+        });
+        
+        // Kiểm tra danh sách xét nghiệm
+        let danhSachXetNghiem = document.getElementById("selectedTests");
+        if (danhSachXetNghiem.options.length === 0) {
+            hopLe = false;
+            hienThiLoi(danhSachXetNghiem, "*");
+        }
+        
+        if (hopLe) {
+            document.getElementById("mainForm").submit();
+        }
+    });
+
+    // Hiển thị thông báo lỗi bên cạnh trường nhập liệu
+    function hienThiLoi(truong, thongBao) {
+        let thongBaoLoi = document.createElement("span");
+        thongBaoLoi.className = "error-message";
+        thongBaoLoi.style.color = "red";
+        thongBaoLoi.textContent = " " + thongBao;
+        truong.parentNode.appendChild(thongBaoLoi);
+    }
+
+    // Câu 2
+    // Xử lý năm sinh và tính tuổi
+    let chonNam = document.getElementById("year");
+    let hienThiTuoi = document.getElementById("age");
+    let namHienTai = new Date().getFullYear();
+
+    // Tạo danh sách năm sinh từ 1919 đến 2018
+    for (let nam = 1919; nam <= 2018; nam++) {
+        let luaChon = document.createElement("option");
+        luaChon.value = nam;
+        luaChon.textContent = nam;
+        chonNam.appendChild(luaChon);
+    }
+
+    // Chọn mặc định năm 2000
+    chonNam.value = 2000;
+    hienThiTuoi.textContent = namHienTai - 2000;
+
+    // Cập nhật tuổi khi chọn năm sinh mới
+    chonNam.addEventListener("change", function () {
+        let namDuocChon = parseInt(this.value);
+        hienThiTuoi.textContent = namHienTai - namDuocChon;
+    });
+
+    // Câu 3
+    // Xử lý chuyển mục xét nghiệm
+    let danhSachTatCa = document.getElementById("allTests");
+    let danhSachDaChon = document.getElementById("selectedTests");
+    let nutSangPhai = document.getElementById("toLeft");
+    let nutSangTrai = document.getElementById("toRight");
+
+    // Chuyển các lựa chọn khi nhấn nút mũi tên
+    function chuyenLuaChon(nguon, dich) {
+        let luaChonDaChon = Array.from(nguon.selectedOptions);
+        luaChonDaChon.forEach(luaChon => {
+            dich.appendChild(luaChon);
+        });
+        tinhThoiGianXetNghiem(); // Tính thời gian xét nghiệm khi thay đổi lựa chọn
+    }
+
+    // Nút mũi tên sang trái
+    nutSangPhai.addEventListener("click", function () {
+        chuyenLuaChon(danhSachTatCa, danhSachDaChon);
+    });
+    // Nút mũi tên sang phải
+    nutSangTrai.addEventListener("click", function () {
+        chuyenLuaChon(danhSachDaChon, danhSachTatCa);
+    });
+
+    // Câu 4
+    document.getElementById("moveUp").addEventListener("click", function () {
+    let danhSachDaChon = document.getElementById("selectedTests");
+    let luaChon = danhSachDaChon.selectedIndex;
+
+    if (luaChon > 0) { // Kiểm tra không phải phần tử đầu tiên
+        let mucHienTai = danhSachDaChon.options[luaChon];
+        let mucTruocDo = danhSachDaChon.options[luaChon - 1];
+
+        // Hoán đổi vị trí
+        danhSachDaChon.insertBefore(mucHienTai, mucTruocDo);
+    }
+});
+
+document.getElementById("moveDown").addEventListener("click", function () {
+    let danhSachDaChon = document.getElementById("selectedTests");
+    let luaChon = danhSachDaChon.selectedIndex;
+
+    if (luaChon >= 0 && luaChon < danhSachDaChon.options.length - 1) { 
+        let mucHienTai = danhSachDaChon.options[luaChon];
+        let mucSauDo = danhSachDaChon.options[luaChon + 1];
+
+        // Di chuyển xuống bằng cách hoán đổi vị trí
+        danhSachDaChon.insertBefore(mucSauDo, mucHienTai);
+    }
+});
+
+
+    // Cau 5
+    // Tính thời gian xét nghiệm
+    function tinhThoiGianXetNghiem() {
+        let tongThoiGian = 0;
+        let cacXetNghiemDaChon = document.querySelectorAll("#selectedTests option");
+
+        // Duyệt qua các xét nghiệm đã chọn và tính tổng thời gian
+        cacXetNghiemDaChon.forEach(luaChon => {
+            let timPhut = luaChon.textContent.match(/(\d+) phút/);
+            if (timPhut) {
+                tongThoiGian += parseInt(timPhut[1]);
+            }
+        });
+
+        // Hiển thị tổng thời gian xét nghiệm 
+        document.getElementById("testTime").textContent = tongThoiGian + " phút";
+    }
+
+    // Câu 6 vẽ tam giác cân
+    document.getElementById("Ve").addEventListener("click", function () {
+        let soNguyen = parseInt(document.getElementById("n").value.trim()); // Giá trị số nguyên được nhập từ bàn phím
+
+        // Kiểm tra n trong khoảng 3 <= n <= 7
+        if (isNaN(soNguyen) || soNguyen < 3 || soNguyen > 7) {
+            alert("Vui lòng nhập số nguyên từ 3 đến 7!");
+            return;
+        }
+
+        let tamGiac = "";
+        let soThuTu = 1;
+
+        //Duyệt hàng
+        for (let hang = 1; hang <= soNguyen; hang++) {
+            let khoangTrang = "&nbsp;".repeat((soNguyen - hang) * 2);
+            let dongHienTai = "";
+
+            // Duyệt cột
+            for (let cot = 1; cot <= 2 * hang - 1; cot++) {
+                dongHienTai += soThuTu + " ";
+                soThuTu++;
+            }
+
+            tamGiac += khoangTrang + dongHienTai + "<br>";
+        }
+
+        // Hiển thị tam giác
+        document.getElementById("ve").innerHTML = "<pre>" + tamGiac + "</pre>";
+    });
+});
+    </script>
+
+    <!-- CSS internal -->
+    <style type="text/css">
+        form {
+            width: 30em;
+            border-style: dotted;
+            border-width: thin;
+            border-color: red;
+            padding: 1em;
+        }
+        
+        .form_label {
+            width: 12em;
+            float: left;
+        }
+        
+        .form {
+            clear: left;
+            margin-bottom: 1.5em;
+        }
+        
+        .form_footer {
+            clear: left;
+            padding-top: 1.5em;
+        }
+        
+        .form_line_error {
+            border-width: thin;
+        }
+        
+        .form_line {
+            clear: left;
+            padding-top: 0.3em;
+            padding-bottom: 0.3em;
+        }
+        
+        #timer {
+            position: absolute;
+            width: 220px;
+            height: 64px;
+            left: 33em;
+            top: 150px;
+            text-align: center;
+            padding-left: 8px;
+            padding-top: 10px;
+            border: thin;
+            border-color: #F00;
+            border-style: dotted;
+        }
+        
+        #calendar {
+            position: absolute;
+            width: 220px;
+            height: 200px;
+            left: 33em;
+            top: 325px;
+            text-align: center;
+            padding-left: 8px;
+            padding-top: 10px;
+            border: thin;
+            border-color: #F00;
+            border-style: dotted;
+        }
+        
+        #image {
+            position: absolute;
+            width: 220px;
+            height: 75px;
+            left: 33em;
+            top: 230px;
+            text-align: center;
+            padding-left: 8px;
+            padding-top: 10px;
+            border: thin;
+            border-color: #F00;
+            border-style: dotted;
+        }
+        
+        #info {
+            position: absolute;
+            width: 220px;
+            height: 75px;
+            left: 33em;
+            top: 59px;
+            text-align: center;
+            padding-left: 8px;
+            padding-top: 10px;
+            border: thin;
+            border-color: #F00;
+            border-style: dotted;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h2>Đăng ký khám bệnh - hồ sơ nhận bệnh</h2>
+    <div class="container">
+
+        <form id="mainForm" action="xuly.php">
+            <div class="form" id="general">
+                <div class="form_line_error">
+                    <label for="name"><span class="form_label">Họ và tên</span></label>
+                    <input id="name" name="name" size="35">
+                    </input>
+                </div>
+                <div class="form_line">
+                    <label for="cmnd"><span class="form_label">CMND</span></label>
+                    <input id="cmnd" name="cmnd" size="25">
+                    </input>
+                </div>
+                <div class="form_line">
+                    <label for="gender"><span class="form_label">Giới tính</span></label>
+                    <select id="gender" name="gender">
+              <option>Nam</option>
+              <option selected="selected">Nữ</option>
+            </select>
+                </div>
+                <div class="form_line">
+                    <label for="year"><span class="form_label">Năm sinh</span></label>
+                    <select id="year" name="year">
+              <option>1922</option>
+              <option selected="selected">1923</option>
+            </select>
+                </div>
+                <div class="form_line">
+                    <span class="form_label">Tuổi:</span>
+                    <span id="age">20</span>
+                </div>
+            </div>
+            <div class="form" id="test">
+                <div>Xét nghiệm <button id="all" type="button">Chọn tất cả</button></div>
+                <div>
+                    <div style="float:left; text-align: right; ">
+                        <div>Danh sách xét nghiệm <br/></div>
+                        <div>
+                            <select id="allTests" name="allTests" multiple="multiple" size="15">
+                  <option>Viêm gan (10 phút)</option>
+                  <option selected="selected">Máu (2 phút)</option>
+                </select>
+                        </div>
+                    </div>
+                    <div style="float:left; margin-left:1em; margin-right:1em;">
+                        <div style="height:1.4em;"></div>
+                        <div>
+                            <button id="toLeft" type="button">-&gt;</button><br/>
+                            <button id="toRight" type="button">&lt;-</button>
+                        </div>
+                    </div>
+                    <div style="float:left ;text-align: left;">
+                        <div>Xét nghiệm chọn (theo thứ tự)</div>
+                        <div>
+                            <div style="float:left;">
+                                <select id="selectedTests" name="selectedTests" multiple="multiple" size="15">
+                  <option>Siêu âm bụng dưới (5 phút)</option>
+                  <option selected="selected">X Quang ngực (10 phút)</option>
+                </select>
+                            </div>
+                            <div style="float:left; text-align: left;">
+                                <button id="moveUp" type="button">Lên</button><br/>
+                                <button id="moveDown" type="button">Xuống</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="clear:left; padding-top: 1em;">
+                <div class="form_line">
+                    <span class="form_label">Thời gian xét nghiệm:</span>
+                    <span id="testTime">20 phút</span>
+                </div>
+            </div>
+            <div class="form_footer" id="buttons">
+                <div>
+                    <button id="submitButton" type="submit">Đăng ký</button>
+                </div>
+            </div>
+            <div id="timer">Hiển thị đồng hồ<br/>
+                <img src="images/clock.png" />
+            </div>
+            <div id="calendar">Vẽ tam giác <br/>
+                <input id="n" name="n" size="10" value="3<=n<=6">
+                <input type="button" id="Ve" name="Ve" value="Vẽ">
+                <div id="ve"><img src="images/tamgiac.png" width="150" /></div>
+            </div>
+            <div id="image"><br/>
+                <img src="images/12dieu.gif" width="200" />
+            </div>
+            <div id="info">Thông tin cá nhân<br/>
+                <span class="form_label">Họ tên: Nguyễn Phước Sang</span>
+                <span class="form_label">MSSV: 3123411255</span>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
