@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION["islogin"] = true;
         $response["isLogin"] = true;
         setcookie("islogin", "true", time() + (3 * 24 * 60 * 60), "/");
-        header("Location: ../pages/sign-in.php");
+        header("Location: ../pages/sign-in.html");
         echo json_encode(["message" => "New record created successfully"]);
     } else {
         echo json_encode(["error" => $sql->error]);

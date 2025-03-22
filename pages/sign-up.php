@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- CSS  -->
         <link rel="stylesheet" href="../css/index.css">
+        <link rel="stylesheet" href="../libs/bootstrap-5.3.3-dist/css/bootstrap.min.css">
         <title>Learn Php</title>
     </head>
 
@@ -27,7 +28,7 @@
                 <label for="">Số điện thoại</label>
                 <input type="text" name="numberphone" id="numberphone" required>
                 <br>
-                <button type="submit" class="signUpButton">Sign Up</button>
+                <button type="submit" class="btn btn-primary signUpButton">Sign Up</button>
             </form>
         </div>
         <script src="./javascript/handle.js"></script>

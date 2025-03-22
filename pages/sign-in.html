@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập</title>
+    <!-- JS    -->
+    <script src="../javascript/checkUserSignIn.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -113,12 +115,14 @@
         </div>
         <form>
             <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" class="form-control" placeholder="Nhập email của bạn" required>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control"
+                    placeholder="Nhập username của bạn" required>
             </div>
             <div class="form-group">
                 <label for="password">Mật khẩu</label>
-                <input type="password" id="password" class="form-control" placeholder="Nhập mật khẩu" required>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Nhập mật khẩu"
+                    required>
             </div>
             <div class="checkbox-group">
                 <input type="checkbox" id="remember" name="remember">

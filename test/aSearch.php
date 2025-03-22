@@ -13,7 +13,10 @@ $limit = isset($_GET["limit"]) ? (int)$_GET["limit"] : 5; // Giới hạn 5 sả
 $offset = ($page - 1) * $limit;
 
 // Tạo câu truy vấn động
-$query = "SELECT product_id, product_name, price FROM product WHERE 1=1";
+$query = "SELECT p.product_id, p.product_name, p.price, pi.image_url 
+          FROM product p 
+          LEFT JOIN product_image pi ON p.product_id = pi.product_id
+          WHERE 1=1";
 $params = [];
 $types = "";
 
