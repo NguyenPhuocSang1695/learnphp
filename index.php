@@ -4,17 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS   -->
+    <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/main.css">
     <!-- JS  -->
     <script src="./javascript/filter-product.js"></script>
     <title>Trang chủ</title>
 </head>
 
 <body>
-    <header>
-        <h1>Chào mừng đến với web của tôi</h1>
-        <h1>Hope you have a day like a penis</h1>
-        <h3 id="sayHelloCustomer">Xin chào</h3>
+    <header class="site-header">
+        <div class="container-header">
+            <h1 class="title">Chào mừng đến với web của tôi</h1>
+            <p class="subtitle">Hope you have a day like a <strong>penis</strong>—hard and standing tall</p>
+            <h3 id="sayHelloCustomer">Xin chào</h3>
+        </div>
     </header>
+
 
     <main>
         <div class="container">
@@ -70,6 +77,7 @@
             }
         });
     </script>
+
 
 </body>
 

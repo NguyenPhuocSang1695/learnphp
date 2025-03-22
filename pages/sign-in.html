@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập</title>
+    <!-- CSS  -->
+    <link rel="stylesheet" href="../css/index.css">
     <!-- JS    -->
-    <script src="../javascript/checkUserSignIn.js"></script>
+    <script src="../javascript/checkuser.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -113,7 +115,7 @@
         <div class="login-header">
             <h1>Đăng nhập</h1>
         </div>
-        <form>
+        <form method="POST" action="../php/checkuser.php" onsubmit="event.preventDefault(); loginUser();">
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" class="form-control"

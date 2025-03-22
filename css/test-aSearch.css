@@ -1,0 +1,115 @@
+/* Căn chỉnh tổng thể */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 20px;
+}
+
+main {
+    margin: 50px 0;
+}
+
+/* Tiêu đề */
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Form tìm kiếm */
+form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto 30px;
+    text-align: left;
+}
+
+form label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: 0.3s ease-in-out;
+}
+
+form input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Nút tìm kiếm */
+form button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+    display: block;
+    width: 100%;
+    transition: 0.3s;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* Bảng kết quả */
+table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+table th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Phân trang */
+#pagination {
+    margin-top: 20px;
+}
+
+#pagination button {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#pagination button:hover {
+    background-color: #218838;
+}

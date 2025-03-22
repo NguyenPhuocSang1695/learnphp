@@ -29,7 +29,7 @@ function fetchProducts() {
 
       if (data.products.length > 0) {
         data.products.forEach((product) => {
-          let row = `<tr>
+          let row = `<tr">
               <td>${product.product_id}</td>
               <td>${product.product_name}</td>
               <td>${new Intl.NumberFormat().format(product.price)} VND</td>
