@@ -33,9 +33,9 @@ function fetchProducts() {
               <td>${product.product_id}</td>
               <td>${product.product_name}</td>
               <td>${new Intl.NumberFormat().format(product.price)} VND</td>
-              <td><img src="${
-                product.image_url || "images/default.jpg"
-              }" alt="${product.product_name}" width="80"></td>
+              <td><img src="${product.image_url}" alt="${
+            product.product_name
+          }" width="80"></td>
            </tr>`;
 
           resultTable.innerHTML += row;

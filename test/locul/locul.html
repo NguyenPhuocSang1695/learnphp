@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../libs/bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <script src="../../libs/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+    <title>Chọn danh mục</title>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h2>Chọn danh mục sản phẩm</h2>
+        <form action="../../php/locul.php" method="GET">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Chọn danh mục
+                </button>
+                <ul class="dropdown-menu">
+                    <li><button type="submit" name="category_id" value="1" class="dropdown-item">Cây dễ chăm</button>
+                    </li>
+                    <li><button type="submit" name="category_id" value="2" class="dropdown-item">Cây văn phòng</button>
+                    </li>
+                    <li><button type="submit" name="category_id" value="3" class="dropdown-item">Cây để bàn</button>
+                    </li>
+                    <li><button type="submit" name="category_id" value="4" class="dropdown-item">Cây dưới nước</button>
+                    </li>
+                </ul>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
