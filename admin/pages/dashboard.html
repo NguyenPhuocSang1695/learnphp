@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Sản Phẩm</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+
+<body>
+    <div class="card">
+        <h2>Thêm Sản Phẩm</h2>
+        <form id="productForm" method="POST" enctype="multipart/form-data" action="../php/addproduct.php">
+            <div class="form-group">
+                <label for="productName">Tên sản phẩm</label>
+                <input type="text" id="productName" name="productName" required placeholder="Nhập tên sản phẩm">
+            </div>
+            <div class="form-group">
+                <label for="categoryID">Danh mục</label>
+                <select id="categoryID" name="categoryID" required>
+                    <option value="1">Cây văn phòng</option>
+                    <option value="2">Cây dưới nước</option>
+                    <option value="3">Cây dễ chăm</option>
+                    <option value="4">Cây để bàn</option>
+                </select>
+                <div class="category-note">
+                    <p>1: Cây văn phòng</p>
+                    <p>2: Cây dưới nước</p>
+                    <p>3: Cây dễ chăm</p>
+                    <p>4: Cây để bàn</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="price">Giá</label>
+                <input type="number" id="price" name="price" required placeholder="Nhập giá sản phẩm">
+            </div>
+            <div class="form-group">
+                <label for="stockQuantity">Số lượng</label>
+                <input type="number" id="stockQuantity" name="stockQuantity" required
+                    placeholder="Nhập số lượng sản phẩm">
+            </div>
+            <div class="form-group">
+                <label for="descriptionBrief">Mô tả ngắn</label>
+                <textarea id="descriptionBrief" name="descriptionBrief" required
+                    placeholder="Nhập mô tả ngắn"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="descriptionDetail">Mô tả chi tiết</label>
+                <textarea id="descriptionDetail" name="descriptionDetail" required
+                    placeholder="Nhập mô tả chi tiết"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="imageURL">Ảnh sản phẩm</label>
+                <input type="file" id="imageURL" name="imageURL" required>
+                <img id="imagePreview" class="image-preview" src="#" alt="Preview image" style="display:none;">
+            </div>
+            <button type="submit" class="btn">Thêm Sản Phẩm</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('imageURL').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function () {
+                const imagePreview = document.getElementById('imagePreview');
+                imagePreview.style.display = 'block';
+                imagePreview.src = reader.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
+</body>
+
+</html>

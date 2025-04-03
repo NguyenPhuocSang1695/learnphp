@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang tìm kiếm</title>
+</head>
+
+<body>
+    <form id="searchForm">
+        <input type="text" id="query" placeholder="Nhập từ khóa..." required>
+        <button type="submit">Tìm kiếm</button>
+    </form>
+
+    <script>
+        document.getElementById("searchForm").addEventListener("submit", function (e) {
+            e.preventDefault(); // Ngăn chặn reload trang
+            let query = document.getElementById("query").value;
+            window.location.href = "search.html?q=" + encodeURIComponent(query);
+        });
+    </script>
+</body>
+
+</html>
