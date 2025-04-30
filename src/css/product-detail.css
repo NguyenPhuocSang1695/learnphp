@@ -1,0 +1,149 @@
+/* CSS cho phần chi tiết sản phẩm */
+.product-detail-section {
+    padding: 40px 0;
+    background-color: #f9f9f9;
+}
+
+.breadcrumb {
+    background-color: transparent;
+    font-size: 14px;
+    padding-left: 0;
+}
+
+.breadcrumb-item a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.breadcrumb-item a:hover {
+    color: #4CAF50;
+}
+
+.breadcrumb-item.active {
+    color: #4CAF50;
+    font-weight: 500;
+}
+
+.product-image {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 20px;
+}
+
+.product-image img {
+    width: 382px;
+    height: 382px;
+    transition: transform 0.5s;
+}
+
+.product-image img:hover {
+    transform: scale(1.03);
+}
+
+.product-info {
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.product-title {
+    color: #333;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.product-price {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.current-price {
+    font-size: 28px;
+    font-weight: 700;
+    color: #4CAF50;
+    margin-right: 15px;
+}
+
+.old-price {
+    font-size: 18px;
+    color: #999;
+    text-decoration: line-through;
+    margin-right: 15px;
+}
+
+.discount-badge {
+    background-color: #ff6b6b;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.product-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.add-to-cart-btn {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #388E3C;
+    border-color: #388E3C;
+    transform: translateY(-2px);
+}
+
+.buy-now-btn {
+    border-color: #4CAF50;
+    color: #4CAF50;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.buy-now-btn:hover {
+    background-color: #4CAF50;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .product-info {
+        margin-top: 20px;
+    }
+
+    .product-title {
+        font-size: 24px;
+    }
+
+    .current-price {
+        font-size: 24px;
+    }
+
+    .product-actions {
+        flex-direction: column;
+    }
+
+    .add-to-cart-btn,
+    .buy-now-btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
