@@ -417,7 +417,7 @@
                 <div class="footer-bottom">
                     <p>&copy; 2025 Shop Online. Tất cả quyền được bảo lưu.</p>
                     <div class="payment-methods">
-                        <img src="/api/placeholder/120/30" alt="Phương thức thanh toán">
+                        <img style="width: 100%; height: 145px" src="./assets/images/pmmt.png" alt="Phương thức thanh toán">
                     </div>
                 </div>
             </div>

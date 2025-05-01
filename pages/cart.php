@@ -64,20 +64,20 @@ session_start();
                             </div>
                             <div class="offcanvas-body">
                                 <?php if (isset($_SESSION['username'])): ?>
-                                    <a href="./pages/profile.php" class="text-decoration-none">
+                                    <a href="../pages/profile.php" class="text-decoration-none">
                                         <p style="color: black;">Thông tin tài khoản</p>
                                     </a>
-                                    <a href="./pages/orders.php" class="text-decoration-none">
+                                    <a href="../pages/orders.php" class="text-decoration-none">
                                         <p style="color: black;">Đơn hàng của tôi</p>
                                     </a>
-                                    <a href="./php/handle-logout.php" class="text-decoration-none">
+                                    <a href="../php/handle-logout.php" class="text-decoration-none">
                                         <p style="color: black;">Đăng xuất</p>
                                     </a>
                                 <?php else: ?>
-                                    <a href="./pages/login.php" class="text-decoration-none">
+                                    <a href="../pages/login.php" class="text-decoration-none">
                                         <p style="color: black;">Đăng nhập</p>
                                     </a>
-                                    <a href="./pages/register.php" class="text-decoration-none">
+                                    <a href="../pages/register.php" class="text-decoration-none">
                                         <p style="color: black;">Đăng ký</p>
                                     </a>
                                 <?php endif; ?>
@@ -270,7 +270,7 @@ session_start();
                 <div class="footer-bottom">
                     <p>&copy; 2025 Shop Online. Tất cả quyền được bảo lưu.</p>
                     <div class="payment-methods">
-                        <img src="/api/placeholder/120/30" alt="Phương thức thanh toán">
+                        <img style="width: 100%; height: 145px" src="../assets/images/pmmt.png" alt="Phương thức thanh toán">
                     </div>
                 </div>
             </div>
