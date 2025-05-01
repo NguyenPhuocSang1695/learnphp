@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -19,7 +22,7 @@
 <body>
     <!-- Header -->
     <header class="header">
-        <div classz="container">
+        <div class="container">
             <div class="header-wrapper">
                 <div class="logo">
                     <a href="../index.php">
@@ -28,8 +31,8 @@
                 </div>
 
                 <div class="search-box">
-                    <form action="#" method="get">
-                        <input type="text" placeholder="Tìm kiếm sản phẩm...">
+                    <form action="../php/handle-search.php" method="GET">
+                        <input type="text" name="searchKey" placeholder="Tìm kiếm sản phẩm...">
                         <button type="submit"><i class="fas fa-search"></i></button>
                     </form>
                 </div>
@@ -41,7 +44,45 @@
                     </div>
 
                     <div class="account">
-                        <a href="#"><i class="fas fa-user"></i> Tài khoản</a>
+                        <a class="btn" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                            <i class="fas fa-user"></i>
+                        </a>
+
+
+                        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                            <div class="offcanvas-header">
+                                <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+                                    <?php
+                                    if (isset($_SESSION['username'])) {
+                                        echo "Xin chào " . htmlspecialchars($_SESSION['username']);
+                                    } else {
+                                        echo "Xin vui lòng đăng nhập";
+                                    }
+                                    ?>
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                                <?php if (isset($_SESSION['username'])): ?>
+                                    <a href="./pages/profile.php" class="text-decoration-none">
+                                        <p style="color: black;">Thông tin tài khoản</p>
+                                    </a>
+                                    <a href="./pages/orders.php" class="text-decoration-none">
+                                        <p style="color: black;">Đơn hàng của tôi</p>
+                                    </a>
+                                    <a href="./php/handle-logout.php" class="text-decoration-none">
+                                        <p style="color: black;">Đăng xuất</p>
+                                    </a>
+                                <?php else: ?>
+                                    <a href="./pages/login.php" class="text-decoration-none">
+                                        <p style="color: black;">Đăng nhập</p>
+                                    </a>
+                                    <a href="./pages/register.php" class="text-decoration-none">
+                                        <p style="color: black;">Đăng ký</p>
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="cart">
@@ -64,7 +105,7 @@
             </div>
 
             <ul class="main-menu">
-                <li class="menu-item"><a href="index.php" class="active">Trang chủ</a></li>
+                <li class="menu-item"><a href="../index.php" class="active">Trang chủ</a></li>
                 <li class="menu-item has-dropdown">
                     <a href="#">Sản phẩm <i class="fas fa-chevron-down"></i></a>
                     <ul class="dropdown">
@@ -141,26 +182,40 @@
                         </div>
                         <div class="cart-items">
                             <!-- Cart item example -->
-                            <div class="d-flex justify-content-between align-items-center cart-item border-bottom py-3">
-                                <div class="d-flex align-items-center">
-                                    <img src="product.jpg" alt="Product" class="img-fluid">
-                                    <span>Tên sản phẩm</span>
-                                </div>
-                                <input type="number" value="1" min="1" class="form-control" style="width: fit-content;">
-                                <span class="font-weight-semibold">100.000 VNĐ</span>
-                                <button class="btn text-danger">Xóa</button>
-                            </div>
+
 
                             <?php
+                            if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0) {
+                                echo "Giỏ hàng rỗng.";
+                            } else {
+                                $totalAmount = 0; // Khởi tạo biến tổng tiền
+                                foreach ($_SESSION['cart'] as $item) {
+                                    $itemTotal = $item['price'] * $item['quantity']; // Tính tiền cho mỗi sản phẩm
+                                    $totalAmount += $itemTotal; // Cộng vào tổng
 
+                                    echo '<div class="d-flex justify-content-between align-items-center cart-item border-bottom py-3">
+                                        <div class="d-flex align-items-center">
+                                            <img src="../assets/images/' . $item['image'] . '" alt="Product" class="img-fluid">
+                                            <span>' . $item['name'] . '</span>
+                                        </div>
+                                        <form class="d-flex align-items-center update-cart-form">
+                                            <input type="hidden" name="product_id" value="' . $item['id'] . '">
+                                            <input type="number" name="quantity" value="' . $item['quantity'] . '" min="1" 
+                                                class="form-control quantity-input" style="width: 80px;">
+                                        </form>
+                                        <span class="font-weight-semibold">' . number_format($itemTotal, 0, ',', '.') . ' VNĐ</span>
+                                        <button class="btn text-danger remove-item" data-product-id="' . $item['id'] . '">Xóa</button>
+                                    </div>';
+                                }
+                            }
                             ?>
                         </div>
                         <div class="d-flex justify-content-between align-items-center total-section">
                             <span>Tổng cộng:</span>
-                            <span>100.000 VNĐ</span>
+                            <span><?php echo isset($totalAmount) ? number_format($totalAmount, 0, ',', '.') : 0; ?> VNĐ</span>
                         </div>
                         <div class="text-end mt-4">
-                            <button class="btn btn-primary">Thanh toán</button>
+                            <a href="./pay.php"><button class="btn btn-primary">Thanh toán</button></a>
                         </div>
                     </div>
                 </div>
@@ -222,6 +277,66 @@
         </footer>
 
         <script src="script.js"></script>
+        <script>
+            document.querySelectorAll('.quantity-input').forEach(input => {
+                input.addEventListener('change', function() {
+                    const form = this.closest('form');
+                    const formData = new FormData(form);
+
+                    fetch('../php/update_cart.php', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Cập nhật cart-count
+                                const cartCount = document.querySelector('.cart-count');
+                                if (cartCount) {
+                                    cartCount.textContent = data.total_items;
+                                }
+                            }
+                        });
+                });
+            });
+
+            // Thêm đoạn code này vào phần script ở cuối file
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-product-id');
+                    const cartItem = this.closest('.cart-item');
+
+                    const formData = new FormData();
+                    formData.append('product_id', productId);
+
+                    fetch('../php/remove_from_cart.php', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Xóa phần tử khỏi DOM
+                                cartItem.remove();
+
+                                // Cập nhật cart-count
+                                const cartCount = document.querySelector('.cart-count');
+                                if (cartCount) {
+                                    cartCount.textContent = data.total_items;
+                                }
+
+                                // Nếu giỏ hàng rỗng
+                                if (data.total_items === 0) {
+                                    document.querySelector('.cart-items').innerHTML = "Giỏ hàng rỗng.";
+                                }
+
+                                // Cập nhật tổng tiền
+                                location.reload(); // Tạm thời reload để cập nhật tổng tiền
+                            }
+                        });
+                });
+            });
+        </script>
 </body>
 
 </html>

@@ -28,8 +28,8 @@
                 </div>
 
                 <div class="search-box">
-                    <form action="#" method="get">
-                        <input type="text" placeholder="Tìm kiếm sản phẩm...">
+                    <form action="./php/handle-search.php" method="GET">
+                        <input type="text" name="searchKey" placeholder="Tìm kiếm sản phẩm...">
                         <button type="submit"><i class="fas fa-search"></i></button>
                     </form>
                 </div>
@@ -41,8 +41,46 @@
                     </div>
 
                     <div class="account">
-                        <a href="#"><i class="fas fa-user"></i> Tài khoản</a>
-                    </div>
+                        <a class="btn" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                            <i class="fas fa-user"></i>
+                        </a>
+
+
+                        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                            <div class="offcanvas-header">
+                                <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+                                    <?php
+                                    if (isset($_SESSION['username'])) {
+                                        echo "Xin chào " . htmlspecialchars($_SESSION['username']);
+                                    } else {
+                                        echo "Xin vui lòng đăng nhập";
+                                    }
+                                    ?>
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                                <?php if (isset($_SESSION['username'])): ?>
+                                    <a href="./pages/profile.php" class="text-decoration-none">
+                                        <p style="color: black;">Thông tin tài khoản</p>
+                                    </a>
+                                    <a href="./pages/orders.php" class="text-decoration-none">
+                                        <p style="color: black;">Đơn hàng của tôi</p>
+                                    </a>
+                                    <a href="./php/handle-logout.php" class="text-decoration-none">
+                                        <p style="color: black;">Đăng xuất</p>
+                                    </a>
+                                <?php else: ?>
+                                    <a href="./pages/login.php" class="text-decoration-none">
+                                        <p style="color: black;">Đăng nhập</p>
+                                    </a>
+                                    <a href="./pages/register.php" class="text-decoration-none">
+                                        <p style="color: black;">Đăng ký</p>
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>Ks
 
                     <div class="cart">
                         <a href="#">
@@ -64,7 +102,7 @@
             </div>
 
             <ul class="main-menu">
-                <li class="menu-item"><a href="index.php" class="active">Trang chủ</a></li>
+                <li class="menu-item"><a href="../index.php" class="active">Trang chủ</a></li>
                 <li class="menu-item has-dropdown">
                     <a href="#">Sản phẩm <i class="fas fa-chevron-down"></i></a>
                     <ul class="dropdown">

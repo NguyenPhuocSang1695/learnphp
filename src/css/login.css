@@ -1,0 +1,22 @@
+.login-card {
+    max-width: 1000px;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    width: 600px;
+}
+
+.login-card h2 {
+    color: #2e7d32;
+    margin-bottom: 20px;
+}
+
+.btn-login {
+    background-color: #43a047;
+    border: none;
+}
+
+.btn-login:hover {
+    background-color: #388e3c;
+}

@@ -44,17 +44,27 @@ document.addEventListener("DOMContentLoaded", function () {
     false
   );
 
-  // Cart functionality (example)
+  // Cart functionality
   const addToCartButtons = document.querySelectorAll(".add-to-cart");
+  const removeFromCartButtons = document.querySelectorAll(".remove-from-cart");
   const cartCount = document.querySelector(".cart-count");
-  let count = 0;
+  let count = parseInt(localStorage.getItem("cartCount")) || 0;
 
+  // Initialize cart count from localStorage
+  if (cartCount) {
+    updateCartCount(count);
+  }
+
+  // Add to cart
   if (addToCartButtons.length > 0 && cartCount) {
     addToCartButtons.forEach((button) => {
       button.addEventListener("click", function (e) {
         e.preventDefault();
+        const productId = this.getAttribute("data-product-id");
+
+        // Increment count
         count++;
-        cartCount.textContent = count;
+        updateCartCount(count);
 
         // Animation effect
         cartCount.classList.add("pulse");
@@ -62,10 +72,56 @@ document.addEventListener("DOMContentLoaded", function () {
           cartCount.classList.remove("pulse");
         }, 300);
 
-        // You could add more logic here like showing a notification
+        // Save to localStorage
+        saveCartCount();
+
+        // Show notification
         showNotification("Sản phẩm đã được thêm vào giỏ hàng!");
       });
     });
+  }
+
+  // Remove from cart
+  if (removeFromCartButtons.length > 0 && cartCount) {
+    removeFromCartButtons.forEach((button) => {
+      button.addEventListener("click", function (e) {
+        e.preventDefault();
+        const productId = this.getAttribute("data-product-id");
+
+        // Decrement count
+        if (count > 0) {
+          count--;
+          updateCartCount(count);
+
+          // Animation effect
+          cartCount.classList.add("pulse");
+          setTimeout(() => {
+            cartCount.classList.remove("pulse");
+          }, 300);
+
+          // Save to localStorage
+          saveCartCount();
+
+          // Show notification
+          showNotification("Sản phẩm đã được xóa khỏi giỏ hàng!");
+        }
+      });
+    });
+  }
+
+  // Function to update cart count
+  function updateCartCount(newCount) {
+    cartCount.textContent = newCount;
+    if (newCount > 0) {
+      cartCount.style.display = "block";
+    } else {
+      cartCount.style.display = "none";
+    }
+  }
+
+  // Function to save cart count to localStorage
+  function saveCartCount() {
+    localStorage.setItem("cartCount", count);
   }
 
   // Notification function

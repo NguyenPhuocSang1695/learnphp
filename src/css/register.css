@@ -1,0 +1,33 @@
+body {
+    background: #f1f8f4;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.form-register {
+    border: 1px solid #d4edda;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.form-register h2 {
+    font-weight: bold;
+}
+
+.form-label {
+    color: #2f7a44;
+}
+
+.form-control:focus {
+    border-color: #4caf50;
+    box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+}
+
+.btn-success {
+    background-color: #4caf50;
+    border-color: #4caf50;
+}
+
+.btn-success:hover {
+    background-color: #43a047;
+    border-color: #43a047;
+}
