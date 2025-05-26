@@ -14,9 +14,16 @@ if (isset($_POST["submitdn"]) && $_SERVER["REQUEST_METHOD"] === "POST") {
     $row = $result->fetch_assoc();
 
     if ($row) {
-        if ($matkhau == $row["password"]) {
+        if (password_verify($matkhau, $row["password"])) {
             $_SESSION["username"] = $row["username"];
             header("Location: ../index.php");
+        } else {
+            echo "
+            <script>
+            alert ('Sai mật khẩu');
+            window.location.href = '../pages/dangnhap.php';
+            </script>
+            ";
         }
     }
 }

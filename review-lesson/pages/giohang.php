@@ -3,6 +3,7 @@ session_start();
 require_once "../conf/shopDB.php";
 $newShop = new shopDB("localhost", "root", "", "shopDB");
 $newShop->connectDB();
+$newShop->isLogined();
 
 $totalQuantity = 0;
 if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
