@@ -3,6 +3,11 @@ session_start();
 require_once "./conf/shopDB.php";
 $newShop = new shopDB("localhost", "root", "", "shopDB");
 $newShop->connectDB();
+
+// Số lượng sản phẩm khác nhau trong giỏ hàng 
+$totalQuantity = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
+
+
 ?>
 
 <!DOCTYPE html>
@@ -13,37 +18,51 @@ $newShop->connectDB();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang chủ</title>
     <link rel="stylesheet" href="./css/index.css">
+    <!-- <link rel="stylesheet" href="./css/cart-on-num.css"> -->
+
 </head>
 
 <body>
     <header>
         <h1>Chào mừng đến với cửa hàng của chúng tôi!</h1>
-        <?php
-        if (isset($_SESSION["username"])) {
-            echo "Xin chào " . $_SESSION['username'] . "<br>";
-            echo "<a href='./php/xulydangxuat.php' >
-                    <button  style = 'margin: 10px 20px'>Đăng xuất</button>
-                  </a>";
-            echo "<a href='./pages/personal.php' >
-                    <button  style = 'margin: 10px 20px'>Thông tin kh</button>
-                  </a>";
-        } else {
-            echo "Xin chào quý khách, xin vui lòng đăng nhập!" . "<br>";
-            echo "<a href='./pages/dangnhap.php'>
-                    <button  style = 'margin: 10px 20px'>Đăng nhập</button>
-                  </a>";
-            echo "<a href='./pages/dangky.php'>
-                    <button  style = 'margin: 10px 20px'>Đăng ký</button>
-                  </a>";
-        }
-        ?>
-        <a href="./pages/giohang.php">
-            <button>
-                🛒
-            </button>
-        </a>
-    </header>
 
+        <?php if (isset($_SESSION["username"])): ?>
+            <div class="user-greeting">
+                👋 Xin chào <?php echo $_SESSION['username']; ?>!
+            </div>
+        <?php else: ?>
+            <div class="guest-greeting">
+                Xin chào quý khách, xin vui lòng đăng nhập!
+            </div>
+        <?php endif; ?>
+
+        <div class="header-controls">
+            <div class="auth-buttons">
+                <?php if (isset($_SESSION["username"])): ?>
+                    <a href='./php/xulydangxuat.php'>
+                        <button>Đăng xuất</button>
+                    </a>
+                    <a href='./pages/personal.php'>
+                        <button>Thông tin KH</button>
+                    </a>
+                <?php else: ?>
+                    <a href='./pages/dangnhap.php'>
+                        <button>Đăng nhập</button>
+                    </a>
+                    <a href='./pages/dangky.php'>
+                        <button>Đăng ký</button>
+                    </a>
+                <?php endif; ?>
+            </div>
+
+            <div class="cart">
+                <a href="./pages/giohang.php">
+                    <button>🛒</button>
+                    <p class="soluongsp"><?php echo htmlspecialchars($totalQuantity) ?></p>
+                </a>
+            </div>
+        </div>
+    </header>
     <!-- Lọc theo phân loại  -->
     <section>
         <h2>Phân loại sản phẩm</h2>
@@ -109,7 +128,7 @@ $newShop->connectDB();
 
                 $stt = $offset + 1;
                 while ($product = $resProducts->fetch_assoc()) {
-                    echo "<tr>
+                    echo "<tr onclick=\"window.location='./pages/chitietsanpham.php?product_id={$product['product_id']}'\">
             <td>$stt</td>
             <td>{$product['product_name']}</td>
             <td>" . number_format($product['price'], 0,  ',', ".") . " VNĐ</td>
@@ -254,24 +273,58 @@ $newShop->connectDB();
     <section>
         <h2>Chỉnh sửa sản phẩm</h2>
         <form action="./php/xulisuasp.php" method="post" enctype="multipart/form-data">
-            <?php
-            // Kết nối database ở đây nếu chưa có
-            // include 'config.php'; hoặc $newShop = new Database();
+            <div class="chinhsua-sp">
+                <?php
+                // Xác định số sản phẩm mỗi trang
+                $limitProductChange = 15;
 
-            $sql = "SELECT * FROM product group by product_id order by product_id desc";
-            $res = $newShop->runQuery($sql);
+                // Xác định trang hiện tại
+                $pageChange = isset($_GET['pageChange']) ? (int)$_GET['pageChange'] : 1;
+                if ($pageChange < 1) $pageChange = 1;
 
-            while ($row = $res->fetch_assoc()) {
-                echo "<div style='margin-bottom: 10px;'>";
-                echo "<strong>" . $row["product_name"] . "</strong>";
-                echo " - <input type='hidden' name='product_id' value='" . $row["product_id"] . "'>";
-                echo " <a href='./pages/edit_product.php?id=" . $row["product_id"] . "'>Chỉnh sửa</a>";
+                // Tính offset
+                $offsetProductChange = ($pageChange - 1) * $limitProductChange;
+
+                // Lấy tổng số sản phẩm để tính tổng số trang
+                $totalSqlChange = "SELECT COUNT(DISTINCT product_id) as total FROM product";
+                $totalResChange = $newShop->runQuery($totalSqlChange);
+                $totalRowChange = $totalResChange->fetch_assoc();
+                $totalProductsChange = $totalRowChange['total'];
+                $totalPagesChange = ceil($totalProductsChange / $limitProductChange);
+
+                // Truy vấn sản phẩm theo trang
+                $sqlChange = "SELECT * FROM product 
+        GROUP BY product_id 
+        ORDER BY product_id DESC 
+        LIMIT $limitProductChange OFFSET $offsetProductChange";
+                $resChange = $newShop->runQuery($sqlChange);
+
+                // Hiển thị sản phẩm
+                while ($rowChange = $resChange->fetch_assoc()) {
+                    echo "<div>";
+                    echo "<strong>" . $rowChange["product_name"] . "</strong>";
+                    echo " - <input type='hidden' name='product_id' value='" . $rowChange["product_id"] . "'>";
+                    echo " <a href='./pages/edit_product.php?id=" . $rowChange["product_id"] . "'>Chỉnh sửa</a>";
+                    echo "</div>";
+                }
+
+                // Hiển thị phân trang
+                echo "<div style='margin-top: 20px;'>";
+                for ($iChange = 1; $iChange <= $totalPagesChange; $iChange++) {
+                    if ($iChange == $pageChange) {
+                        echo "<strong style='margin: 0 5px;'>$iChange</strong>";
+                    } else {
+                        echo "<a href='?pageChange=$iChange' style='margin: 0 5px;'>$iChange</a>";
+                    }
+                }
                 echo "</div>";
-            }
-            ?>
-        </form>
+                ?>
 
+
+            </div>
+        </form>
     </section>
+
 
 </body>
 

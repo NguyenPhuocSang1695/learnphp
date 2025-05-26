@@ -1,4 +1,8 @@
 <?php
+ini_set('session.gc_maxlifetime', 10800);
+// Set cookie session tồn tại trong 3 tiếng
+session_set_cookie_params(10800);
+
 session_start();
 require_once "../conf/shopDB.php";
 $newShop = new shopDB("localhost", "root", "", "shopDB");
@@ -14,9 +18,16 @@ if (isset($_POST["submitdn"]) && $_SERVER["REQUEST_METHOD"] === "POST") {
     $row = $result->fetch_assoc();
 
     if ($row) {
-        if ($matkhau == $row["password"]) {
+        if (password_verify($matkhau, $row["password"])) {
             $_SESSION["username"] = $row["username"];
             header("Location: ../index.php");
+        } else {
+            echo "
+            <script>
+            alert ('Sai mật khẩu');
+            window.location.href = '../pages/dangnhap.php';
+            </script>
+            ";
         }
     }
 }

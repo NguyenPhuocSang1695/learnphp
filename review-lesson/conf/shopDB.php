@@ -24,6 +24,17 @@ class shopDB
         }
     }
 
+    // Check status để đăng nhập
+    function isLogined()
+    {
+        if (!$_SESSION["username"]) {
+            echo "<script>
+            confirm ('Xin vui lòng đăng nhập');
+            window.location.href = '../pages/dangnhap.php';
+            </script>";
+        }
+    }
+
     // Hàm kết nối với database
     function connectDB()
     {

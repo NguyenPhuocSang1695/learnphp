@@ -22,12 +22,10 @@ if (isset($_GET['product_id'])) {
     exit;
 }
 
-$totalQuantity = 0;
-if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
-    foreach ($_SESSION['cart'] as $item) {
-        $totalQuantity += $item['quantity'];
-    }
-}
+// Số lượng sản phẩm khác nhau trong giỏ hàng 
+$totalQuantity = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
+
+
 
 if (isset($_SESSION['success_message'])) {
     echo "<div class='alert-success' id='alertBox' style='padding: 10px; margin: 15px 0; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px; text-align: center;'>
@@ -75,7 +73,12 @@ if (isset($_SESSION['success_message'])) {
 
                 <!-- Nút thêm vào giỏ hàng - -->
                 <button type="submit" name="submit" id="submit">Thêm vào giỏ hàng</button>
+
+
             </form>
+            <a href="../index.php">
+                <button style="margin: 30px 0" id="back-to-index-button">Quay lại trang chủ</button>
+            </a>
         </div>
     </main>
 

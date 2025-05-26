@@ -8,10 +8,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     $tendn = $_POST["username"];
     $matkhau = $_POST["password"];
     $email = $_POST["email"];
+    $number_phone  = $_POST["number_phone"];
+    $address = $_POST["address"];
+    // Mã hóa mật khẩu trước khi lưu
+    $hashed_password = password_hash($matkhau, PASSWORD_DEFAULT);
+    // Kiểm tra xem các trường có rỗng không
+    // if (empty($tendn) || empty($hashed_password) || empty($email) || empty($number_phone) || empty($address)) {
+    //     echo "Vui lòng điền đầy đủ thông tin.";
+    //     header("Location: ../pages/dangky.php");
+    //     exit();
+    // }
 
     // Kiểm tra username đã tồn tại chưa
     $check_sql = "SELECT * FROM user WHERE username = '$tendn'";
     $check_res = $newShop->runQuery($check_sql);
+
 
     if ($check_res->num_rows > 0) {
         // Username đã tồn tại
@@ -20,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         // Bạn có thể redirect hoặc xử lý hiển thị thông báo khác
     } else {
         // Chèn dữ liệu mới vào database
-        $insert_sql = "INSERT INTO user (username, password, email) VALUES ('$tendn', '$matkhau', '$email')";
+        $insert_sql = "INSERT INTO user (username, password, email, number_phone, address) VALUES ('$tendn', '$hashed_password', '$email', '$number_phone', '$address')";
         $insert_res = $newShop->runQuery($insert_sql);
 
         if ($insert_res) {

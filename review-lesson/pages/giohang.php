@@ -3,13 +3,24 @@ session_start();
 require_once "../conf/shopDB.php";
 $newShop = new shopDB("localhost", "root", "", "shopDB");
 $newShop->connectDB();
+$newShop->isLogined();
 
+// Đếm số lượng sản phẩm trong giỏ hàng (giống nhau)
+// $totalQuantity = 0;
+// if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
+//     foreach ($_SESSION['cart'] as $item) {
+//         $totalQuantity += $item['quantity'];
+//     }
+// }
+
+// Đếm số lượng sản phẩm khác nhau
 $totalQuantity = 0;
 if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
-    foreach ($_SESSION['cart'] as $item) {
-        $totalQuantity += $item['quantity'];
-    }
+    $totalQuantity = count($_SESSION['cart']);
 }
+
+// Lưu totalQuantity vào session
+$_SESSION['totalQuantity'] = $totalQuantity;
 
 ?>
 
@@ -37,6 +48,7 @@ if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
             <table>
                 <thead>
                     <tr>
+                        <th></th>
                         <th>ID</th>
                         <th>Tên sản phẩm</th>
                         <th>Giá</th>
