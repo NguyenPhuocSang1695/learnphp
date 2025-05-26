@@ -35,13 +35,14 @@ session_start();
                     <input type="password" name="pmk" id="pmk">
                 </div>
                 <br>
-                <input type="submit" name="submitdn" id="submitdn">
+                <input type="submit" name="submitdn" id="submitdn" value="Đăng nhập">
 
             </form>
             <p>Mày chưa có tài khoản? Bấm vào đây để đăng kí <a href="./dangky.php"><button>Đăng ký</button></a></p>
 
         </div>
     </main>
+    <script src="../js/pageReload.js"></script>
 </body>
 
 </html>

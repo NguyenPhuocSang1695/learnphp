@@ -62,6 +62,7 @@ $row = $res->fetch_assoc();
             Quay về trang chủ
         </button>
     </a>
+    <script src="../js/pageReload.js"></script>
 </body>
 
 </html>

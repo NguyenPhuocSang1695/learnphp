@@ -77,6 +77,7 @@ if (isset($_SESSION["username"])) {
             Quay về trang chủ
         </button>
     </a>
+    <script src="../js/pageReload.js"></script>
 </body>
 
 </html>

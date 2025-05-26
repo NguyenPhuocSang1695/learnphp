@@ -110,7 +110,7 @@ if (isset($_SESSION['success_message'])) {
             }, 3000);
         }
     </script>
-
+    <script src="../js/pageReload.js"></script>
 </body>
 
 </html>

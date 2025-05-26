@@ -86,6 +86,7 @@ $_SESSION['totalQuantity'] = $totalQuantity;
             </button>
         </a>
     </main>
+    <script src="../js/pageReload.js"></script>
 </body>
 
 </html>
