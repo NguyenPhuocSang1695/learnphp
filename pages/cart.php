@@ -337,6 +337,7 @@ session_start();
                 });
             });
         </script>
+        <script src="../src/js/cart-count.js"></script>
 </body>
 
 </html>

@@ -291,6 +291,7 @@ session_start();
         </footer>
 
         <script src="script.js"></script>
+        <script src="../src/js/cart-count.js"></script>
 </body>
 
 </html>

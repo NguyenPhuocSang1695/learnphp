@@ -5,6 +5,7 @@ $conn = connect_db();
 
 if (isset($_POST['product_id'])) {
     $productId = mysqli_real_escape_string($conn, $_POST['product_id']);
+    $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
 
     // Lấy thông tin sản phẩm từ DB
     $sql = "SELECT * FROM products WHERE product_id = '$productId'";
@@ -19,18 +20,19 @@ if (isset($_POST['product_id'])) {
             'name' => $product['name'],
             'price' => $product['price'],
             'image' => $product['image'],
-            'quantity' => 1
+            'quantity' => $quantity
         ];
 
         // Thêm vào session giỏ hàng
         if (isset($_SESSION['cart'][$productId])) {
-            $_SESSION['cart'][$productId]['quantity']++;
+            // Nếu đã có sản phẩm thì cộng thêm số lượng
+            $_SESSION['cart'][$productId]['quantity'] += $quantity;
         } else {
             $_SESSION['cart'][$productId] = $item;
         }
 
         // Chuyển hướng về trang giỏ hàng hoặc trang trước đó
-        header('Location: ../pages/product-detail.php?id=' . $productId);
+        header('Location: ../pages/cart.php?id=' . $productId);
         exit();
     } else {
         echo "Sản phẩm không tồn tại.";

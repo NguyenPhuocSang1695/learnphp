@@ -1,0 +1,61 @@
+<?php
+session_start();
+require_once "../conf/shopDB.php";
+$newShop = new shopDB("localhost", "root", "", "shopDB");
+$newShop->connectDB();
+
+
+if (isset($_POST["submitdn"]) && $_SERVER["REQUEST_METHOD"] === "POST") {
+    $tendn = $_POST["txttendn"];
+    $matkhau = $_POST["pmk"];
+
+    $sql = "select * from user where username = '$tendn'";
+    $result = $newShop->runQuery($sql);
+    $row = $result->fetch_assoc();
+
+    if ($row) {
+        if ($matkhau == $row["password"]) {
+            $_SESSION["username"] = $row["username"];
+            header("Location: ../index.php");
+        }
+    }
+}
+
+// Dùng prepare 
+/*
+<?php
+session_start();
+require_once "../conf/shopDB.php";
+$newShop = new shopDB("localhost", "root", "", "shopDB");
+$newShop->connectDB();
+
+if (isset($_POST["submitdn"]) && $_SERVER["REQUEST_METHOD"] === "POST") {
+    $tendn   = $_POST["txttendn"];
+    $matkhau = $_POST["pmk"];
+
+    // Dùng prepared statement để lấy thông tin user
+    $sql = "SELECT * FROM user WHERE username = ?";
+    $stmt = $newShop->prepareAndExecute($sql, "s", [$tendn]);
+
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    if ($row) {
+        // So sánh mật khẩu nhập với mật khẩu đã hash trong database
+        if (password_verify($matkhau, $row["password"])) {
+            $_SESSION["username"] = $row["username"];
+            $stmt->close();
+            header("Location: ../index.php");
+            exit();
+        } else {
+            echo "Sai mật khẩu!";
+        }
+    } else {
+        echo "Tài khoản không tồn tại!";
+    }
+
+    $stmt->close();
+}
+?>
+
+*/

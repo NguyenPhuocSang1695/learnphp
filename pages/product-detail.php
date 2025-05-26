@@ -212,10 +212,13 @@ session_start();
                     }
 
                     echo '</div>
-                                <form method="post" action="../php/add_to_cart.php">
-    <input type="hidden" name="product_id" value="' . $row['product_id'] . '">
-    <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
-</form>
+                                <form method="post" action="../php/add_to_cart.php" class="d-flex align-items-center gap-3">
+                                    <input type="hidden" name="product_id" value="' . $row['product_id'] . '">
+                                     <label for="quantity" class="mb-0">Số lượng:</label>
+                                    <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control" style="width: 80px;">
+                                    <button type="submit" class="btn btn-primary">Thêm vào giỏ</button>
+                                </form>
+
 
                             </div>
                         </div>
