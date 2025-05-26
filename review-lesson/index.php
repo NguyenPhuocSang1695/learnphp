@@ -4,12 +4,10 @@ require_once "./conf/shopDB.php";
 $newShop = new shopDB("localhost", "root", "", "shopDB");
 $newShop->connectDB();
 
-$totalQuantity = 0;
-if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
-    foreach ($_SESSION['cart'] as $item) {
-        $totalQuantity += $item['quantity'];
-    }
-}
+// Số lượng sản phẩm khác nhau trong giỏ hàng 
+$totalQuantity = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
+
+
 ?>
 
 <!DOCTYPE html>
@@ -130,7 +128,7 @@ if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
 
                 $stt = $offset + 1;
                 while ($product = $resProducts->fetch_assoc()) {
-                    echo "<tr>
+                    echo "<tr onclick=\"window.location='./pages/chitietsanpham.php?product_id={$product['product_id']}'\">
             <td>$stt</td>
             <td>{$product['product_name']}</td>
             <td>" . number_format($product['price'], 0,  ',', ".") . " VNĐ</td>
@@ -277,17 +275,52 @@ if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
         <form action="./php/xulisuasp.php" method="post" enctype="multipart/form-data">
             <div class="chinhsua-sp">
                 <?php
-                $sql = "SELECT * FROM product GROUP BY product_id ORDER BY product_id DESC";
-                $res = $newShop->runQuery($sql);
+                // Xác định số sản phẩm mỗi trang
+                $limitProductChange = 15;
 
-                while ($row = $res->fetch_assoc()) {
+                // Xác định trang hiện tại
+                $pageChange = isset($_GET['pageChange']) ? (int)$_GET['pageChange'] : 1;
+                if ($pageChange < 1) $pageChange = 1;
+
+                // Tính offset
+                $offsetProductChange = ($pageChange - 1) * $limitProductChange;
+
+                // Lấy tổng số sản phẩm để tính tổng số trang
+                $totalSqlChange = "SELECT COUNT(DISTINCT product_id) as total FROM product";
+                $totalResChange = $newShop->runQuery($totalSqlChange);
+                $totalRowChange = $totalResChange->fetch_assoc();
+                $totalProductsChange = $totalRowChange['total'];
+                $totalPagesChange = ceil($totalProductsChange / $limitProductChange);
+
+                // Truy vấn sản phẩm theo trang
+                $sqlChange = "SELECT * FROM product 
+        GROUP BY product_id 
+        ORDER BY product_id DESC 
+        LIMIT $limitProductChange OFFSET $offsetProductChange";
+                $resChange = $newShop->runQuery($sqlChange);
+
+                // Hiển thị sản phẩm
+                while ($rowChange = $resChange->fetch_assoc()) {
                     echo "<div>";
-                    echo "<strong>" . $row["product_name"] . "</strong>";
-                    echo " - <input type='hidden' name='product_id' value='" . $row["product_id"] . "'>";
-                    echo " <a href='./pages/edit_product.php?id=" . $row["product_id"] . "'>Chỉnh sửa</a>";
+                    echo "<strong>" . $rowChange["product_name"] . "</strong>";
+                    echo " - <input type='hidden' name='product_id' value='" . $rowChange["product_id"] . "'>";
+                    echo " <a href='./pages/edit_product.php?id=" . $rowChange["product_id"] . "'>Chỉnh sửa</a>";
                     echo "</div>";
                 }
+
+                // Hiển thị phân trang
+                echo "<div style='margin-top: 20px;'>";
+                for ($iChange = 1; $iChange <= $totalPagesChange; $iChange++) {
+                    if ($iChange == $pageChange) {
+                        echo "<strong style='margin: 0 5px;'>$iChange</strong>";
+                    } else {
+                        echo "<a href='?pageChange=$iChange' style='margin: 0 5px;'>$iChange</a>";
+                    }
+                }
+                echo "</div>";
                 ?>
+
+
             </div>
         </form>
     </section>

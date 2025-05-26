@@ -1,4 +1,8 @@
 <?php
+ini_set('session.gc_maxlifetime', 10800);
+// Set cookie session tồn tại trong 3 tiếng
+session_set_cookie_params(10800);
+
 session_start();
 require_once "../conf/shopDB.php";
 $newShop = new shopDB("localhost", "root", "", "shopDB");

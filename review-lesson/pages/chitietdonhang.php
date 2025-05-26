@@ -40,60 +40,7 @@ if (isset($_POST['cancel_order'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi tiết đơn hàng</title>
-    <link rel="stylesheet" href="../css//cthd.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            padding: 20px;
-            color: #333;
-        }
-
-        h2 {
-            color: #007bff;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-        }
-
-        th,
-        td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #dee2e6;
-        }
-
-        thead {
-            background-color: #007bff;
-            color: #fff;
-        }
-
-        tfoot {
-            background-color: #f1f1f1;
-            font-weight: bold;
-        }
-
-        tr:hover {
-            background-color: #f1f7ff;
-        }
-
-        a {
-            display: inline-block;
-            margin-top: 20px;
-            text-decoration: none;
-            color: #007bff;
-            font-weight: 500;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/cthd.css">
 </head>
 
 <body>
