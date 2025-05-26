@@ -11,6 +11,7 @@ if (!isset($_SESSION['username'])) {
 // Kiểm tra submit form
 if (isset($_POST['submit_payment'])) {
     $username = $_SESSION['username'];
+    echo $username;
 
     // Lấy user_id từ bảng user theo username
     $sqlUser = "SELECT user_id FROM user WHERE username = ?";

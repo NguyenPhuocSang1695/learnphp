@@ -325,7 +325,7 @@ $totalQuantity = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
         </form>
     </section>
 
-
+    <script src="./js/pageReload.js"></script>
 </body>
 
 </html>

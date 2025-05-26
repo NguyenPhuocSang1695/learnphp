@@ -40,6 +40,7 @@
             <button>Quay lại trang chủ</button>
         </a>
     </div>
+    <script src="../js/pageReload.js"></script>
 </body>
 
 </html>

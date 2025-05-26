@@ -121,7 +121,7 @@ if (isset($_POST['cancel_order'])) {
             </form>
         <?php endif; ?>
     </div>
-
+    <script src="../js/pageReload.js"></script>
 </body>
 
 </html>

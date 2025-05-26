@@ -3,6 +3,8 @@ session_start();
 require_once "../conf/shopDB.php";
 $newShop = new shopDB("localhost", "root", "", "shopDB");
 $newShop->connectDB();
+
+$username = $_SESSION['username'];
 ?>
 
 <!DOCTYPE html>
@@ -32,8 +34,8 @@ $newShop->connectDB();
             <!-- Lấy thông tin từ địa chỉ mặc định của bạn hoặc nhập địa chỉ mới để giao hàng. -->
             <?php
             $sql = "SELECT * FROM user WHERE username = ?";
-            $params = [$_SESSION['username']];
-            $stmt = $newShop->prepareAndExecute($sql, "i", $params);
+            $params = [$username];
+            $stmt = $newShop->prepareAndExecute($sql, "s", $params);
             $user = $stmt->get_result()->fetch_assoc();
             if (!$user) {
                 echo "<p>Không tìm thấy thông tin người dùng.</p>";
@@ -144,6 +146,7 @@ $newShop->connectDB();
             }
         });
     </script>
+    <script src="../js/pageReload.js"></script>
 </body>
 
 </html>
